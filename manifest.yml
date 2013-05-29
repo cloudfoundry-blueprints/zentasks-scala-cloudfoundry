@@ -1,17 +1,20 @@
---- 
-applications: 
-  dist/zentask-1.0.zip: 
-    instances: 1
-    mem: 256M
-    url: ${name}.${target-base}
-    name: scaladayszentasks
-    infra: aws
-    services: 
-      tasks-db 
-        type: postgresql
-    framework: 
-      info: 
-        exec: 
-        description: Play Framework Application
-        mem: 256M
-      name: play
+---
+blueprint:
+  name: "Play! ZenTasks"
+  description: "This is a slight reworking of the Play framework 2.1.x Scala-language sample application - zentasks - to run on Cloud Foundry. The application uses PostgreSQL instead of the in-built H2 in-memory database."
+  imageURL: https://raw.github.com/cloudfoundry-blueprints/zentasks-scala-cloudfoundry/env-vars-sinatra/master/zentasks_logo.png
+  browseURL: https://github.com/cloudfoundry-blueprints/zentasks-scala-cloudfoundry
+  buildInstructions: "play dist"
+applications:
+- name: playzentasks
+  framework: play
+  runtime: java7
+  memory: 512M
+  instances: 1
+  url: playzentasks.${target-base}
+  path: dist/zentask-1.0.zip
+  services:
+    zentasks-db:
+      vendor: postgresql
+      version: '9.0'
+      tier: free
